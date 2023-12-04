@@ -2,10 +2,12 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, schemas, models, exceptions
+
 from sqlalchemy.exc import IntegrityError
 
-from settings.config import SECRET
 from auth.database import User, get_user_db
+
+from settings.config import SECRET
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
