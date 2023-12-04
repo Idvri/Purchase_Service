@@ -3,7 +3,6 @@ from typing import Optional
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, schemas, models, exceptions
 from sqlalchemy.exc import IntegrityError
-from starlette.responses import Response
 
 from settings.config import SECRET
 from auth.database import User, get_user_db
