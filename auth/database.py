@@ -15,7 +15,7 @@ Base: DeclarativeMeta = declarative_base()
 
 class User(SQLAlchemyBaseUserTable[int], Base):
     id: Mapped[int] = mapped_column(
-        Integer, primary_key=True
+        Integer, primary_key=True, autoincrement=True
     )
     last_name: Mapped[str] = mapped_column(
         String, nullable=False
@@ -27,10 +27,10 @@ class User(SQLAlchemyBaseUserTable[int], Base):
         String, nullable=False
     )
     number: Mapped[int] = mapped_column(
-        BigInteger, primary_key=True, nullable=False
+        BigInteger, unique=True
     )
     email: Mapped[str] = mapped_column(
-        String(length=320), unique=True, index=True, nullable=False
+        String(length=320), unique=True
     )
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
