@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.schemas import PYDANTIC_V2
+
 from pydantic import ConfigDict
 
 

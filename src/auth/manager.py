@@ -5,9 +5,9 @@ from fastapi_users import BaseUserManager, IntegerIDMixin, schemas, models, exce
 
 from sqlalchemy.exc import IntegrityError
 
-from auth.database import User, get_user_db
-
-from settings.config import SECRET
+from database import User
+from auth.utils import get_user_db
+from config import SECRET
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
