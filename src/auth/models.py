@@ -1,6 +1,6 @@
 from fastapi_users.db import SQLAlchemyBaseUserTable
 
-from sqlalchemy import Integer, String, BigInteger
+from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
@@ -20,8 +20,8 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     surname: Mapped[str] = mapped_column(
         String, nullable=False
     )
-    number: Mapped[int] = mapped_column(
-        BigInteger, unique=True
+    number: Mapped[str] = mapped_column(
+        String, unique=True
     )
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True
