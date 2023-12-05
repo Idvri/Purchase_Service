@@ -26,13 +26,13 @@ class UserCreate(schemas.BaseUserCreate):
     last_name: str
     first_name: str
     surname: str
-    number: str = Field(pattern=r'\+7[0-9]{10}')
+    number: str = Field(pattern=r'^\+7[0-9]{10}$')
     email: str
     password: str = Field(min_length=8)
 
     @field_validator('password')
     @classmethod
-    def regex_match(cls, password: str) -> str:
+    def password_validation(cls, password: str) -> str:
         re_for_pw: re.Pattern[str] = re.compile(r'^(?=.*[A-Z])(?=.*[$%&!:])[a-zA-Z$%&!:].{7,}$')
         if not re_for_pw.match(password):
             raise ValueError("invalid password")
