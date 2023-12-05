@@ -13,9 +13,6 @@ class UserRead(schemas.BaseUser[int]):
     surname: str
     number: int
     email: str
-    is_active: bool = True
-    is_superuser: bool = False
-    is_verified: bool = False
 
     if PYDANTIC_V2:
         model_config = ConfigDict(from_attributes=True)
@@ -32,6 +29,3 @@ class UserCreate(schemas.BaseUserCreate):
     number: int
     email: str
     password: str
-    is_active: Optional[bool] = True
-    is_superuser: Optional[bool] = False
-    is_verified: Optional[bool] = False

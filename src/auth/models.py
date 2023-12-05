@@ -1,18 +1,31 @@
-from sqlalchemy import MetaData, Integer, String, Table, Column, BigInteger, Boolean
+from fastapi_users.db import SQLAlchemyBaseUserTable
 
-metadata = MetaData()
+from sqlalchemy import Integer, String, BigInteger
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
-user = Table(
-    'user',
-    metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('last_name', String, nullable=False),
-    Column('first_name', String, nullable=False),
-    Column('surname', String, nullable=False),
-    Column('number', BigInteger, unique=True),
-    Column('email', String, unique=True),
-    Column('hashed_password', String, nullable=False),
-    Column('is_active', Boolean, default=True, nullable=False),
-    Column('is_superuser', Boolean, default=False, nullable=False),
-    Column('is_verified', Boolean, default=False, nullable=False),
-)
+Base: DeclarativeMeta = declarative_base()
+
+
+class User(SQLAlchemyBaseUserTable[int], Base):
+    id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, autoincrement=True
+    )
+    last_name: Mapped[str] = mapped_column(
+        String, nullable=False
+    )
+    first_name: Mapped[str] = mapped_column(
+        String, nullable=False
+    )
+    surname: Mapped[str] = mapped_column(
+        String, nullable=False
+    )
+    number: Mapped[int] = mapped_column(
+        BigInteger, unique=True
+    )
+    email: Mapped[str] = mapped_column(
+        String(length=320), unique=True
+    )
+    hashed_password: Mapped[str] = mapped_column(
+        String(length=1024), nullable=False
+    )
