@@ -27,11 +27,11 @@ class UserRead(schemas.BaseUser[int]):
 
 
 class UserCreate(schemas.BaseUserCreate):
-    last_name: str
-    first_name: str
-    surname: str
+    last_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
+    first_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
+    surname: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
     number: str = Field(pattern=r'^\+7[0-9]{10}$')
-    email: str
+    email: str = Field(pattern=r'^[a-z0-9_\-]+[a-z0-9_\-\.]+[a-z0-9_\-]+@[a-z]+\.[a-z]+$')
     password: str = Field(min_length=8)
 
     @field_validator('password')
@@ -45,6 +45,6 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserAuth:
 
-    def __init__(self, *, email_or_number: Annotated[str, Form()], password: Annotated[str, Form()]):
+    def __init__(self, *,  email_or_number: Annotated[str, Form()], password: Annotated[str, Form()]):
         self.email_or_number = email_or_number
         self.password = password
