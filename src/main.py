@@ -4,6 +4,8 @@ from auth.base_config import auth_backend, fastapi_users
 from auth.router import get_costume_auth_router
 from auth.schemas import UserRead, UserCreate
 
+from products.router import router as products_router
+
 app = FastAPI(
     title='Purchase Service'
 )
@@ -22,4 +24,8 @@ app.include_router(
     ),
     prefix="/auth",
     tags=["Auth"],
+)
+
+app.include_router(
+    products_router
 )

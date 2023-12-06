@@ -31,7 +31,7 @@ def get_costume_auth_router(
                         ErrorCode.LOGIN_BAD_CREDENTIALS: {
                             "summary": "Bad credentials or the user is inactive.",
                             "value": {"detail": ErrorCode.LOGIN_BAD_CREDENTIALS},
-                        }
+                        },
                     }
                 }
             },

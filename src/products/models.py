@@ -7,6 +7,7 @@ metadata = MetaData()
 product = Table(
     'product',
     metadata,
+    Column('id', Integer, primary_key=True),
     Column('name', String, nullable=False),
     Column('price', Integer, nullable=False),
     Column('created_at', TIMESTAMP, default=datetime.utcnow),

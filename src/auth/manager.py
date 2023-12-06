@@ -43,7 +43,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         return created_user
 
     async def authenticate(
-        self, credentials: UserAuth
+            self, credentials: UserAuth
     ) -> Optional[models.UP]:
         re_for_number: re.Pattern[str] = re.compile(r'^\+7[0-9]{10}$')
 
@@ -70,6 +70,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             await self.user_db.update(user, {"hashed_password": updated_password_hash})
 
         return user
+
 
 async def get_user_manager(user_db=Depends(get_user_db)):
     yield UserManager(user_db)
