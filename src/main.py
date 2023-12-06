@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
 from auth.base_config import auth_backend, fastapi_users
+from auth.router import get_costume_auth_router
 from auth.schemas import UserRead, UserCreate
-
 
 app = FastAPI(
     title='Purchase Service'
@@ -11,12 +11,15 @@ app = FastAPI(
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
-    tags=["auth"],
+    tags=["Auth"],
 )
 
-
 app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
+    get_costume_auth_router(
+        auth_backend,
+        fastapi_users.get_user_manager,
+        fastapi_users.authenticator
+    ),
+    prefix="/auth",
+    tags=["Auth"],
 )

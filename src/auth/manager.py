@@ -1,11 +1,15 @@
+import re
+
 from typing import Optional
 
 from fastapi import Depends, Request
+
 from fastapi_users import BaseUserManager, IntegerIDMixin, schemas, models, exceptions
 
 from config import SECRET
 
 from auth.models import User
+from auth.schemas import UserAuth
 from auth.utils import get_user_db
 
 
@@ -38,6 +42,35 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         await self.on_after_register(created_user, request)
 
         return created_user
+
+    async def authenticate(
+        self, credentials: UserAuth
+    ) -> Optional[models.UP]:
+        re_for_number: re.Pattern[str] = re.compile(r'^\+7[0-9]{10}$')
+
+        if re_for_number.match(credentials.email_or_number):
+            try:
+                user = await self.user_db.get_by_number(credentials.email_or_number)
+            except exceptions.UserNotExists:
+                self.password_helper.hash(credentials.password)
+                return None
+        else:
+            try:
+                user = await self.user_db.get_by_email(credentials.email_or_number)
+            except exceptions.UserNotExists:
+                self.password_helper.hash(credentials.password)
+                return None
+
+        verified, updated_password_hash = self.password_helper.verify_and_update(
+            credentials.password, user.hashed_password
+        )
+        if not verified:
+            return None
+
+        if updated_password_hash is not None:
+            await self.user_db.update(user, {"hashed_password": updated_password_hash})
+
+        return user
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
