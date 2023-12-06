@@ -1,5 +1,7 @@
 from typing import Optional
 
+from sqlalchemy import select, func
+
 from fastapi_users.db import SQLAlchemyUserDatabase
 from fastapi_users.models import UP, ID
 
