@@ -1,5 +1,9 @@
 import re
 
+from typing_extensions import Annotated
+
+from fastapi.param_functions import Form
+
 from fastapi_users import schemas
 from fastapi_users.schemas import PYDANTIC_V2
 
@@ -37,3 +41,10 @@ class UserCreate(schemas.BaseUserCreate):
         if not re_for_pw.match(password):
             raise ValueError("invalid password")
         return password
+
+
+class UserAuth:
+
+    def __init__(self, *, email_or_number: Annotated[str, Form()], password: Annotated[str, Form()]):
+        self.email_or_number = email_or_number
+        self.password = password
