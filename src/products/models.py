@@ -1,16 +1,37 @@
 from datetime import datetime
 
 from sqlalchemy import MetaData, Table, Column, String, Integer, TIMESTAMP, Boolean
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
-metadata = MetaData()
+Base: DeclarativeMeta = declarative_base()
 
-product = Table(
-    'product',
-    metadata,
-    Column('id', Integer, primary_key=True),
-    Column('name', String, nullable=False),
-    Column('price', Integer, nullable=False),
-    Column('created_at', TIMESTAMP, default=datetime.utcnow),
-    Column('updated_at', TIMESTAMP),
-    Column('is_active', Boolean, nullable=False),
-)
+
+class Product(Base):
+    __tablename__ = 'product'
+
+    id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, autoincrement=True
+    )
+    name: Mapped[str] = mapped_column(
+        String
+    )
+    price: Mapped[int] = mapped_column(
+        Integer
+    )
+    created_at: Mapped[TIMESTAMP] = mapped_column(
+        TIMESTAMP, default=datetime.utcnow
+    )
+    updated_at: Mapped[TIMESTAMP] = mapped_column(
+        TIMESTAMP, nullable=True
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean
+    )
+
+# basket = Table(
+#     'basket',
+#     metadata,
+#     Column('id', Integer, primary_key=True),
+#     Column('product.id', Integer, ForeignKey('basket.id')),
+# )

@@ -7,17 +7,25 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_async_session
 
-from products.models import product
-from products.schemas import Product
+from auth.base_config import fastapi_users
+from auth.models import User
+
+from products.models import Product
+from products.schemas import ProductGet
 
 router = APIRouter(
     prefix='/products',
     tags=['Product']
 )
 
+current_active_user = fastapi_users.current_user(active=True)
 
-@router.get('/', response_model=List[Product])
-async def get_products(session: AsyncSession = Depends(get_async_session)):
-    query = select(product).where(product.c.is_active)
+
+@router.get('/', response_model=List[ProductGet])
+async def get_products(
+        user: User = Depends(current_active_user),
+        session: AsyncSession = Depends(get_async_session)
+):
+    query = select(Product).where(Product.is_active)
     result = await session.execute(query)
-    return result.mappings().all()
+    return result.scalars().all()
