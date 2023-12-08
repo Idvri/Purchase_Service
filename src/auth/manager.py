@@ -60,7 +60,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         )
         await session.execute(stmt)
         await session.commit()
-        print(user.basket)
 
     async def authenticate(
             self, credentials: UserAuth
