@@ -49,3 +49,8 @@ class Basket(Base):
     user: Mapped['User'] = relationship(back_populates='basket')
 
     products: Mapped[List['Product']] = relationship(back_populates="basket")
+
+    @property
+    def get_products_price(self):
+        return self.products
+

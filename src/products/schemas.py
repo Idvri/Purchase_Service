@@ -1,5 +1,6 @@
-from typing import List
+from typing import List, Annotated
 
+from fastapi import Form
 from pydantic import BaseModel
 
 
@@ -10,3 +11,9 @@ class ProductGet(BaseModel):
 
 class BasketGet(BaseModel):
     products: List[ProductGet]
+
+
+class BasketLoad:
+
+    def __init__(self, *,  product: Annotated[str, Form()]):
+        self.product = product
