@@ -6,11 +6,17 @@ from fastapi import Depends, Request
 
 from fastapi_users import BaseUserManager, IntegerIDMixin, schemas, models, exceptions
 
+from sqlalchemy import insert
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from config import SECRET
+from database import get_async_session
 
 from auth.models import User
 from auth.schemas import UserAuth
 from auth.utils import get_user_db
+
+from products.models import Basket
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
@@ -40,7 +46,21 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
         created_user = await self.user_db.create(user_dict)
 
+        await self.on_after_register(created_user, session=self.user_db.session)
+
         return created_user
+
+    async def on_after_register(
+            self,
+            user: models.UP,
+            session: AsyncSession = Depends(get_async_session),
+    ) -> None:
+        stmt = insert(Basket).values(
+            {'user_id': user.id},
+        )
+        await session.execute(stmt)
+        await session.commit()
+        print(user.basket)
 
     async def authenticate(
             self, credentials: UserAuth

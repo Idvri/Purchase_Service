@@ -1,13 +1,13 @@
 from fastapi_users.db import SQLAlchemyBaseUserTable
 
 from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-
-Base: DeclarativeMeta = declarative_base()
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from database import Base
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
+    __tablename__ = 'user'
+
     id: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True, nullable=False
     )
@@ -29,3 +29,4 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
     )
+    basket: Mapped['Basket'] = relationship(uselist=False, back_populates='user')

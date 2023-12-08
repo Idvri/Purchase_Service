@@ -1,37 +1,45 @@
-from datetime import datetime
+import datetime
 
-from sqlalchemy import MetaData, Table, Column, String, Integer, TIMESTAMP, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+from typing import Optional, Annotated
 
-Base: DeclarativeMeta = declarative_base()
+from sqlalchemy import String, Integer, Boolean, ForeignKey, text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from database import Base
+
+intpk = Annotated[
+    int,
+    mapped_column(
+        Integer, primary_key=True, autoincrement=True
+    )
+]
 
 
 class Product(Base):
     __tablename__ = 'product'
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True
-    )
+    id: Mapped[intpk]
     name: Mapped[str] = mapped_column(
         String
     )
     price: Mapped[int] = mapped_column(
         Integer
     )
-    created_at: Mapped[TIMESTAMP] = mapped_column(
-        TIMESTAMP, default=datetime.utcnow
+    created_at: Mapped[datetime.datetime] = mapped_column(
+        server_default=text('TIMEZONE("utc", now())')
     )
-    updated_at: Mapped[TIMESTAMP] = mapped_column(
-        TIMESTAMP, nullable=True
+    updated_at: Mapped[datetime.datetime] = mapped_column(
+        server_default=text('TIMEZONE("utc", now())'),
+        onupdate=datetime.datetime.utcnow
     )
     is_active: Mapped[bool] = mapped_column(
         Boolean
     )
 
-# basket = Table(
-#     'basket',
-#     metadata,
-#     Column('id', Integer, primary_key=True),
-#     Column('product.id', Integer, ForeignKey('basket.id')),
-# )
+
+class Basket(Base):
+    __tablename__ = 'basket'
+
+    id: Mapped[intpk]
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id', ondelete='CASCADE'))
+
+    user: Mapped['User'] = relationship(back_populates='basket')

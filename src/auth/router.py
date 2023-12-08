@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, Request, HTTPException, status
 from fastapi_users import models
 from fastapi_users.authentication import AuthenticationBackend, Authenticator, Strategy
 from fastapi_users.manager import BaseUserManager, UserManagerDependency
+from fastapi_users.openapi import OpenAPIResponseType
 from fastapi_users.router.common import ErrorCode, ErrorModel
 
 from auth.schemas import UserAuth

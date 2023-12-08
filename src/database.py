@@ -4,6 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 
+from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+
+Base: DeclarativeMeta = declarative_base()
+
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_async_engine(DATABASE_URL)
