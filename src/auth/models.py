@@ -29,5 +29,5 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
     )
-    basket: Mapped['Basket'] = relationship(back_populates='user')
+    basket: Mapped['Basket'] = relationship(back_populates='user', lazy=False)
 

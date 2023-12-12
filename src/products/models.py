@@ -48,9 +48,14 @@ class Basket(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id', ondelete='CASCADE'))
     user: Mapped['User'] = relationship(back_populates='basket')
 
-    products: Mapped[List['Product']] = relationship(back_populates="basket")
+    products: Mapped[List['Product']] = relationship(
+        back_populates="basket",
+        lazy=False
+    )
 
-    @property
-    def get_products_price(self):
-        return self.products
-
+    def get_price(self):
+        """Getter для получения стоимости корзины"""
+        common_price: int = 0
+        for product in self.products:
+            common_price += product.price
+        return common_price
