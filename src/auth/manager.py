@@ -12,11 +12,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import SECRET
 from database import get_async_session
 
-from auth.models import User
 from auth.schemas import UserAuth
 from auth.utils import get_user_db
 
-from products.models import Basket
+from models import User
+from models import Basket
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

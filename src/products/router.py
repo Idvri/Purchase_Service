@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_async_session
 
 from auth.base_config import fastapi_users
-from auth.models import User
+from models import User
 
-from products.models import Product
+from models import Product
 from products.schemas import ProductGet, BasketGet, BasketLoad, BasketLoadArray, BasketPrice, BasketResponse
 
 products_router = APIRouter(
