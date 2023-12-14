@@ -1,0 +1,7 @@
+sqlalchemy
+alembic
+psycopg2
+fastapi-users
+asyncpg
+bcrypt
+fastapi
