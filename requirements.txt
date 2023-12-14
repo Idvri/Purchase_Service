@@ -1,7 +1,9 @@
+python-dotenv
 sqlalchemy
 alembic
-psycopg2
+psycopg2-binary
 fastapi-users
+fastapi_users_db_sqlalchemy
 asyncpg
 bcrypt
-fastapi
+fastapi[all]
