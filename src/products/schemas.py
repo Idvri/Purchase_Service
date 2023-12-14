@@ -1,6 +1,6 @@
 from typing import List, Annotated
 
-from fastapi import Form, Query
+from fastapi import Form
 from pydantic import BaseModel
 
 
@@ -9,8 +9,16 @@ class ProductGet(BaseModel):
     price: int
 
 
+class BasketResponse(BaseModel):
+    detail: str
+
+
 class BasketGet(BaseModel):
     products: List[ProductGet]
+
+
+class BasketPrice(BaseModel):
+    price: int
 
 
 class BasketLoad:

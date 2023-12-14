@@ -27,12 +27,12 @@ class UserRead(schemas.BaseUser[int]):
 
 
 class UserCreate(schemas.BaseUserCreate):
-    last_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
-    first_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
-    surname: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+')
-    number: str = Field(pattern=r'^\+7[0-9]{10}$')
-    email: str = Field(pattern=r'^[a-z0-9_\-]+[a-z0-9_\-\.]+[a-z0-9_\-]+@[a-z]+\.[a-z]+$')
-    password: str = Field(min_length=8)
+    last_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+', examples=['Ivanov'])
+    first_name: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+', examples=['Ivan'])
+    surname: str = Field(pattern=r'[A-ZА-ЯЁ]{1}[a-zа-яё]+', examples=['Ivanovich'])
+    number: str = Field(pattern=r'^\+7[0-9]{10}$', examples=['+79372025283'])
+    email: str = Field(pattern=r'^[a-z0-9_\-]+[a-z0-9_\-\.]+[a-z0-9_\-]+@[a-z]+\.[a-z]+$', examples=['noname@mail.ru'])
+    password: str = Field(min_length=8, examples=['Nona!mer'])
 
     @field_validator('password')
     @classmethod
@@ -45,6 +45,6 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserAuth:
 
-    def __init__(self, *,  email_or_number: Annotated[str, Form()], password: Annotated[str, Form()]):
+    def __init__(self, *, email_or_number: Annotated[str, Form()], password: Annotated[str, Form()]):
         self.email_or_number = email_or_number
         self.password = password
