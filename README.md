@@ -13,10 +13,9 @@
 ###### ВАЖНО! До начала выполнения комманд, создать файл .env и по примеру из проекта указать необходимые переменные.
 - git clone https://github.com/Idvri/Purchase_Service.git;
 - python -m venv venv (находясь в папке проекта);
-- env\Scripts\activate (Windows);
+- env/Scripts/activate (Windows);
 - source venv/bin/activate (Linux);
 - pip install -r requirements.txt;
-- alembic revision --autogenerate;
 - alembic upgrade head;
 - cd src;
 - uvicorn main:app --reload.
