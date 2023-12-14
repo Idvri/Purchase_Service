@@ -19,6 +19,7 @@
 - alembic upgrade head;
 - cd src;
 - uvicorn main:app --reload.
+###### Можно так же с Poetry: poetry install --no-root, poetry shell.
 
 ### Доступность (адреса):
 - 127.0.0.1:8000;
