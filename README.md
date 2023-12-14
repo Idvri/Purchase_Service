@@ -2,7 +2,7 @@
 Сервис покупки товаров для авторизованных пользователей.
 
 ### Stack:
-- Python 3.10;
+- Python 3;
 - FastAPI;
 - PostgreSQL;
 - Alembic;
